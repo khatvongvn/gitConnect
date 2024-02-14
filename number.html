@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Học Số từ 1 đến 10</title>
+<!-- <link rel="stylesheet" href="styles.css"> -->
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.number {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.number:hover {
+  background-color: #0056b3;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1>Học Số từ 1 đến 10</h1>
+  <div id="numberContainer">
+    <!-- Số từ 1 đến 10 sẽ được thêm vào đây bằng JavaScript -->
+  </div>
+</div>
+
+<script>
+    // Array chứa các số từ 1 đến 10
+const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+// Lặp qua mảng số và tạo phần tử HTML cho mỗi số
+numbers.forEach(number => {
+  const numberContainer = document.getElementById('numberContainer');
+  const numberElement = document.createElement('div');
+  numberElement.classList.add('number');
+  numberElement.textContent = number;
+  
+  // Thêm sự kiện khi click vào số
+  numberElement.addEventListener('click', () => {
+    alert(`Bạn đã chọn số ${number}`);
+  });
+  
+  numberContainer.appendChild(numberElement);
+});
+
+</script>
+
+</body>
+</html>
