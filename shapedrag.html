@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shape Drag and Drop Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    #game-container {
+        width: 500px;
+        margin: 50px auto;
+    }
+    
+    .shape {
+        width: 100px;
+        height: 100px;
+        margin: 10px;
+        cursor: pointer;
+    }
+    
+    .circle {
+        background-color: #f00;
+        border-radius: 50%;
+    }
+    
+    .square {
+        background-color: #0f0;
+    }
+    
+    .triangle {
+        width: 0;
+        height: 0;
+        border-left: 50px solid transparent;
+        border-right: 50px solid transparent;
+        border-bottom: 100px solid #00f;
+    }
+    
+    .target {
+        width: 100px;
+        height: 100px;
+        background-color: #f0f0f0;
+        border: 2px dashed #666;
+        margin: 10px;
+        display: inline-block;
+    }
+</style>
+</head>
+<body>
+<div id="game-container">
+    <div class="shape circle" draggable="true" id="circle"></div>
+    <div class="shape square" draggable="true" id="square"></div>
+    <div class="shape triangle" draggable="true" id="triangle"></div>
+
+    <div class="target" id="target-circle" data-shape="circle"></div>
+    <div class="target" id="target-square" data-shape="square"></div>
+    <div class="target" id="target-triangle" data-shape="triangle"></div>
+</div>
+
+<script>
+    const shapes = document.querySelectorAll('.shape');
+    const targets = document.querySelectorAll('.target');
+
+    shapes.forEach(shape => {
+        shape.addEventListener('dragstart', dragStart);
+    });
+
+    targets.forEach(target => {
+        target.addEventListener('dragover', dragOver);
+        target.addEventListener('dragenter', dragEnter);
+        target.addEventListener('dragleave', dragLeave);
+        target.addEventListener('drop', dragDrop);
+    });
+
+    function dragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.id);
+    }
+
+    function dragOver(event) {
+        event.preventDefault();
+    }
+
+    function dragEnter(event) {
+        event.preventDefault();
+        this.classList.add('highlight');
+    }
+
+    function dragLeave() {
+        this.classList.remove('highlight');
+    }
+
+    function dragDrop(event) {
+        event.preventDefault();
+        const draggedShapeId = event.dataTransfer.getData('text');
+        const draggedShape = document.getElementById(draggedShapeId);
+        const correctShape = this.dataset.shape;
+        if (draggedShapeId === correctShape) {
+            this.appendChild(draggedShape);
+            draggedShape.style.position = 'static';
+            this.classList.remove('highlight');
+            alert('Correct!');
+        } else {
+            alert('Incorrect!');
+        }
+    }
+</script>
+</body>
+</html>
