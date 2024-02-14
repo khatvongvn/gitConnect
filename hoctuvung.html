@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Học từ vựng: Go</title>
+<!-- <link rel="stylesheet" href="styles.css"> -->
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+}
+
+.container {
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.word {
+  margin-bottom: 20px;
+}
+
+.word img {
+  width: 200px;
+  height: 200px;
+  margin-bottom: 10px;
+}
+
+.quiz ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.quiz li {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quiz li:hover {
+  background-color: #0056b3;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+  <h1>Học từ vựng: Go</h1>
+  <div class="word">
+    <img src="go.jpg" alt="Go">
+    <audio id="audio" src="go.mp3"></audio>
+    <button onclick="playAudio()">Phát âm</button>
+  </div>
+  <div class="quiz">
+    <p>Chọn từ đúng:</p>
+    <ul>
+      <li onclick="checkAnswer(this)">Go</li>
+      <li onclick="checkAnswer(this)">Run</li>
+      <li onclick="checkAnswer(this)">Jump</li>
+    </ul>
+    <p id="result"></p>
+  </div>
+</div>
+
+
+<!--<script src="script.js"></script>  -->
+<script>
+    function playAudio() {
+  const audio = document.getElementById('audio');
+  audio.play();
+}
+
+function checkAnswer(selected) {
+  const correctAnswer = 'Go';
+  const result = document.getElementById('result');
+  
+  if (selected.textContent === correctAnswer) {
+    result.textContent = 'Chính xác!';
+    result.style.color = 'green';
+  } else {
+    result.textContent = 'Sai rồi, hãy thử lại!';
+    result.style.color = 'red';
+  }
+}
+
+</script>
+</body>
+</html>
