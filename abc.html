@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC Learning Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    #game-container {
+        width: 500px;
+        margin: 50px auto;
+    }
+    
+    .letter {
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        border: 2px solid #666;
+        margin: 10px;
+        display: inline-block;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+    }
+    
+    .target {
+        width: 50px;
+        height: 50px;
+        background-color: #f0f0f0;
+        border: 2px dashed #666;
+        margin: 10px;
+        display: inline-block;
+        text-align: center;
+        line-height: 50px;
+    }
+</style>
+</head>
+<body>
+<div id="game-container">
+    <div class="letter" draggable="true" id="letter-a">A</div>
+    <div class="letter" draggable="true" id="letter-b">B</div>
+    <div class="letter" draggable="true" id="letter-c">C</div>
+    <!-- Add more letters as needed -->
+
+    <div class="target" id="target-1" data-correct-letter="letter-a"></div>
+    <div class="target" id="target-2" data-correct-letter="letter-b"></div>
+    <div class="target" id="target-3" data-correct-letter="letter-c"></div>
+    <!-- Add more targets as needed -->
+</div>
+
+<script>
+    const letters = document.querySelectorAll('.letter');
+    const targets = document.querySelectorAll('.target');
+
+    letters.forEach(letter => {
+        letter.addEventListener('dragstart', dragStart);
+    });
+
+    targets.forEach(target => {
+        target.addEventListener('dragover', dragOver);
+        target.addEventListener('dragenter', dragEnter);
+        target.addEventListener('dragleave', dragLeave);
+        target.addEventListener('drop', dragDrop);
+    });
+
+    function dragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.id);
+    }
+
+    function dragOver(event) {
+        event.preventDefault();
+    }
+
+    function dragEnter(event) {
+        event.preventDefault();
+        this.classList.add('highlight');
+    }
+
+    function dragLeave() {
+        this.classList.remove('highlight');
+    }
+
+    function dragDrop(event) {
+        event.preventDefault();
+        const draggedLetterId = event.dataTransfer.getData('text');
+        const draggedLetter = document.getElementById(draggedLetterId);
+        const correctLetterId = this.dataset.correctLetter;
+        if (draggedLetterId === correctLetterId) {
+            this.textContent = draggedLetter.textContent;
+            draggedLetter.style.display = 'none';
+            this.classList.remove('highlight');
+            alert('Correct!');
+        } else {
+            alert('Incorrect!');
+        }
+    }
+</script>
+</body>
+</html>
