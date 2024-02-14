@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC Learning Game with Sound, Picture, and Video</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    #game-container {
+        width: 500px;
+        margin: 50px auto;
+    }
+    
+    .letter-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .letter {
+        width: 50px;
+        height: 50px;
+        background-color: #ccc;
+        border: 2px solid #666;
+        text-align: center;
+        line-height: 50px;
+        cursor: pointer;
+    }
+    
+    .picture {
+        width: 200px;
+        height: auto;
+        border: 2px solid #666;
+        display: none;
+    }
+    
+    .video {
+        width: 100%;
+        border: 2px solid #666;
+        display: none;
+    }
+</style>
+</head>
+<body>
+<div id="game-container">
+    <div class="letter-container">
+        <div class="letter" id="letter-a">A</div>
+        <img src="https://via.placeholder.com/200" alt="A Picture" class="picture" id="picture-a">
+        <video controls class="video" id="video-a">
+            <source src="https://www.example.com/video-a.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <!-- Add more letter containers for other letters -->
+
+</div>
+
+<script>
+    const letters = document.querySelectorAll('.letter');
+
+    letters.forEach(letter => {
+        letter.addEventListener('click', () => {
+            const letterId = letter.id;
+            const pictureId = 'picture-' + letterId.substr(7); // Extracting letter id (e.g., "letter-a" to "a")
+            const videoId = 'video-' + letterId.substr(7);
+            const picture = document.getElementById(pictureId);
+            const video = document.getElementById(videoId);
+            
+            // Hide all pictures and videos
+            document.querySelectorAll('.picture').forEach(p => p.style.display = 'none');
+            document.querySelectorAll('.video').forEach(v => v.style.display = 'none');
+
+            // Show the corresponding picture and video
+            picture.style.display = 'block';
+            video.style.display = 'block';
+
+            // Play the video
+            video.play();
+        });
+    });
+</script>
+</body>
+</html>
