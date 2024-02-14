@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Word Learning</title>
+  <!--   <link rel="stylesheet" href="styles.css"> -->
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  text-align: center;
+}
+
+.word-container {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.controls button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.controls button:hover {
+  background-color: #ddd;
+}
+
+  </style>
+
+</head>
+<body>
+  <div class="container">
+    <h1>English Word Learning</h1>
+    <div class="word-container">
+      <h2 id="word">Word</h2>
+      <audio id="audio" controls></audio>
+      <video id="video" controls></video>
+      <p id="sentence">Example Sentence: </p>
+    </div>
+    <div class="controls">
+      <button id="newWordBtn">New Word</button>
+      <button id="testBtn">Test</button>
+    </div>
+  </div>
+
+  <script>
+    const words = [
+      {
+        word: "Hello",
+        pronunciation: "audio/hello.mp3",
+        video: "video/hello.mp4",
+        sentence: "Hello, how are you?",
+      },
+      {
+        word: "Goodbye",
+        pronunciation: "audio/goodbye.mp3",
+        video: "video/goodbye.mp4",
+        sentence: "Goodbye, see you later.",
+      }
+      // Add more words as needed
+    ];
+
+    const wordElement = document.getElementById('word');
+    const audioElement = document.getElementById('audio');
+    const videoElement = document.getElementById('video');
+    const sentenceElement = document.getElementById('sentence');
+    const newWordBtn = document.getElementById('newWordBtn');
+    const testBtn = document.getElementById('testBtn');
+
+    let currentWordIndex = -1;
+
+    function displayWord(wordObj) {
+      wordElement.textContent = wordObj.word;
+      audioElement.src = wordObj.pronunciation;
+      videoElement.src = wordObj.video;
+      sentenceElement.textContent = "Example Sentence: " + wordObj.sentence;
+    }
+
+    function getRandomWord() {
+      return words[Math.floor(Math.random() * words.length)];
+    }
+
+    newWordBtn.addEventListener('click', () => {
+      const newWord = getRandomWord();
+      displayWord(newWord);
+    });
+
+    testBtn.addEventListener('click', () => {
+      // Implement test functionality
+      alert("Test functionality not implemented yet.");
+    });
+
+    // Display a random word initially
+    newWordBtn.click();
+  </script>
+</body>
+</html>

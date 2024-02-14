@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Learning Platform</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #word-display {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    #answer-input {
+      padding: 8px;
+      font-size: 16px;
+    }
+    #feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div id="word-display">English Word: <span id="word"></span></div>
+  <input type="text" id="answer-input" placeholder="Enter your answer">
+  <button onclick="checkAnswer()">Check Answer</button>
+  <div id="feedback"></div>
+
+  <script>
+    const words = [
+      { word: "Apple", answer: "apple" },
+      { word: "Banana", answer: "banana" },
+      { word: "Carrot", answer: "carrot" },
+      // Add more words as needed
+    ];
+
+    let currentIndex = 0;
+
+    function displayWord() {
+      document.getElementById('word').textContent = words[currentIndex].word;
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById('answer-input').value.toLowerCase();
+      const correctAnswer = words[currentIndex].answer.toLowerCase();
+
+      if (userAnswer === correctAnswer) {
+        document.getElementById('feedback').textContent = "Correct!";
+      } else {
+        document.getElementById('feedback').textContent = "Incorrect. The correct answer is: " + correctAnswer;
+      }
+
+      // Move to the next word or reset if reached the end
+      currentIndex = (currentIndex + 1) % words.length;
+      document.getElementById('answer-input').value = ""; // Clear input field
+      displayWord(); // Display next word
+    }
+
+    // Display the first word when the page loads
+    displayWord();
+  </script>
+</body>
+</html>

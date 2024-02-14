@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Drag and Drop Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    
+    #game-container {
+        width: 500px;
+        margin: 50px auto;
+    }
+    
+    .object {
+        width: 100px;
+        height: 100px;
+        background-color: #ccc;
+        border: 2px solid #666;
+        margin: 10px;
+        display: inline-block;
+        cursor: pointer;
+    }
+    
+    .target {
+        width: 100px;
+        height: 100px;
+        background-color: #f0f0f0;
+        border: 2px dashed #666;
+        margin: 10px;
+        display: inline-block;
+    }
+</style>
+</head>
+<body>
+<div id="game-container">
+    <div class="object" draggable="true" id="object1">Object 1</div>
+    <div class="object" draggable="true" id="object2">Object 2</div>
+    <div class="object" draggable="true" id="object3">Object 3</div>
+
+    <div class="target" id="target1" data-correct-object="object1"></div>
+    <div class="target" id="target2" data-correct-object="object2"></div>
+    <div class="target" id="target3" data-correct-object="object3"></div>
+</div>
+
+<script>
+    const objects = document.querySelectorAll('.object');
+    const targets = document.querySelectorAll('.target');
+
+    objects.forEach(object => {
+        object.addEventListener('dragstart', dragStart);
+    });
+
+    targets.forEach(target => {
+        target.addEventListener('dragover', dragOver);
+        target.addEventListener('dragenter', dragEnter);
+        target.addEventListener('dragleave', dragLeave);
+        target.addEventListener('drop', dragDrop);
+    });
+
+    function dragStart(event) {
+        event.dataTransfer.setData('text/plain', event.target.id);
+    }
+
+    function dragOver(event) {
+        event.preventDefault();
+    }
+
+    function dragEnter(event) {
+        event.preventDefault();
+        this.classList.add('highlight');
+    }
+
+    function dragLeave() {
+        this.classList.remove('highlight');
+    }
+
+    function dragDrop(event) {
+        event.preventDefault();
+        const draggedObjectId = event.dataTransfer.getData('text');
+        const draggedObject = document.getElementById(draggedObjectId);
+        const correctObjectId = this.dataset.correctObject;
+        if (draggedObjectId === correctObjectId) {
+            this.appendChild(draggedObject);
+            draggedObject.style.position = 'static';
+            this.classList.remove('highlight');
+            alert('Correct!');
+        } else {
+            alert('Incorrect!');
+        }
+    }
+</script>
+</body>
+</html>
