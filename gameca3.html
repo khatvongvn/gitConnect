@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Big Fish Eater</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #7fc7d9;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    #game {
+        width: 800px;
+        height: 600px;
+        background-color: #6bbbd8;
+        margin: 20px auto;
+        position: relative;
+    }
+
+    .fish {
+        width: 50px;
+        height: 30px;
+        background-color: #ffffff;
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    #bigFish {
+        width: 100px;
+        height: 60px;
+        background-color: #ffffff;
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    #score {
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 24px;
+        color: #ffffff;
+    }
+
+    #message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 36px;
+        color: #ffffff;
+        display: none;
+    }
+
+    #buttons {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: none;
+    }
+</style>
+</head>
+<body>
+    <div id="game">
+        <div id="bigFish"></div>
+    </div>
+    <div id="score">Score: 0</div>
+    <div id="message"></div>
+    <div id="buttons">
+        <button onclick="startGame()">Start</button>
+        <button onclick="resetGame()">Reset</button>
+    </div>
+
+    <script>
+        var bigFish = document.getElementById('bigFish');
+        var game = document.getElementById('game');
+        var scoreDisplay = document.getElementById('score');
+        var message = document.getElementById('message');
+        var buttons = document.getElementById('buttons');
+        var score = 0;
+        var fishCount = 0;
+        var gameStarted = false;
+
+        function getRandomPosition() {
+            var x = Math.floor(Math.random() * (game.offsetWidth - 50));
+            var y = Math.floor(Math.random() * (game.offsetHeight - 30));
+            return { x: x, y: y };
+        }
+
+        function createSmallFish() {
+            if (!gameStarted) return;
+            if (fishCount >= 20) {
+                endGame("Too many fish on the screen! You lose.");
+                return;
+            }
+            var smallFish = document.createElement('div');
+            smallFish.className = 'fish';
+            var position = getRandomPosition();
+            smallFish.style.left = position.x + 'px';
+            smallFish.style.top = position.y + 'px';
+            game.appendChild(smallFish);
+            fishCount++;
+            smallFish.addEventListener('click', function() {
+                game.removeChild(smallFish);
+                score++;
+                scoreDisplay.textContent = "Score: " + score;
+                fishCount--;
+                if (score >= 200) {
+                    endGame("Congratulations! You win.");
+                }
+            });
+        }
+
+        function moveBigFish(event) {
+            var rect = game.getBoundingClientRect();
+            var mouseX = event.clientX - rect.left - bigFish.offsetWidth / 2;
+            var mouseY = event.clientY - rect.top - bigFish.offsetHeight / 2;
+            if (mouseX < 0) mouseX = 0;
+            if (mouseY < 0) mouseY = 0;
+            if (mouseX + bigFish.offsetWidth > game.offsetWidth) mouseX = game.offsetWidth - bigFish.offsetWidth;
+            if (mouseY + bigFish.offsetHeight > game.offsetHeight) mouseY = game.offsetHeight - bigFish.offsetHeight;
+            bigFish.style.left = mouseX + 'px';
+            bigFish.style.top = mouseY + 'px';
+        }
+
+        function startGame() {
+            score = 0;
+            fishCount = 0;
+            scoreDisplay.textContent = "Score: 0";
+            gameStarted = true;
+            message.style.display = 'none';
+            buttons.style.display = 'none';
+            createSmallFish();
+            setInterval(createSmallFish, 2000);
+        }
+
+        function endGame(msg) {
+            gameStarted = false;
+            message.textContent = msg;
+            message.style.display = 'block';
+            buttons.style.display = 'block';
+        }
+
+        function resetGame() {
+            game.innerHTML = '';
+            startGame();
+        }
+
+        game.addEventListener('mousemove', moveBigFish);
+    </script>
+</body>
+</html>

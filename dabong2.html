@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D Soccer Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    #field {
+        width: 600px;
+        height: 400px;
+        background-color: #00aa00;
+        position: relative;
+        margin: 50px auto;
+    }
+
+    .team {
+        width: 50px;
+        height: 20px;
+        background-color: #fff;
+        position: absolute;
+    }
+
+    #teamA {
+        top: 50%;
+        left: 20px;
+    }
+
+    #teamB {
+        top: 50%;
+        right: 20px;
+    }
+
+    .player {
+        width: 10px;
+        height: 10px;
+        background-color: #000;
+        position: absolute;
+        border-radius: 50%;
+    }
+
+    #playerControlled {
+        background-color: #ff0000;
+    }
+</style>
+</head>
+<body>
+    <div id="field">
+        <div id="teamA" class="team"></div>
+        <div id="teamB" class="team"></div>
+    </div>
+
+    <script>
+        var playerControlled;
+        var teamAPlayers = [];
+        var teamBPlayers = [];
+
+        function createPlayers(teamId, teamArray) {
+            var team = document.getElementById(teamId);
+            for (var i = 0; i < 3; i++) {
+                var player = document.createElement('div');
+                player.className = 'player';
+                player.style.top = Math.floor(Math.random() * 380) + 'px';
+                player.style.left = Math.floor(Math.random() * 580) + 'px';
+                team.appendChild(player);
+                teamArray.push(player);
+            }
+        }
+
+        function movePlayers(teamArray) {
+            for (var i = 0; i < teamArray.length; i++) {
+                var player = teamArray[i];
+                var top = parseInt(player.style.top);
+                var left = parseInt(player.style.left);
+                var newTop = top + Math.floor(Math.random() * 11) - 5;
+                var newLeft = left + Math.floor(Math.random() * 11) - 5;
+                if (newTop < 0) newTop = 0;
+                if (newTop > 380) newTop = 380;
+                if (newLeft < 0) newLeft = 0;
+                if (newLeft > 580) newLeft = 580;
+                player.style.top = newTop + 'px';
+                player.style.left = newLeft + 'px';
+            }
+        }
+
+        function controlPlayer(event) {
+            if (playerControlled) {
+                playerControlled.style.backgroundColor = '#000';
+            }
+            playerControlled = event.target;
+            playerControlled.style.backgroundColor = '#ff0000';
+        }
+
+        function moveControlledPlayer(event) {
+            if (!playerControlled) return;
+            var rect = event.target.getBoundingClientRect();
+            var mouseX = event.clientX - rect.left;
+            var mouseY = event.clientY - rect.top;
+            playerControlled.style.top = mouseY + 'px';
+            playerControlled.style.left = mouseX + 'px';
+        }
+
+        createPlayers('teamA', teamAPlayers);
+        createPlayers('teamB', teamBPlayers);
+
+        setInterval(function() {
+            movePlayers(teamBPlayers);
+        }, 1000);
+
+        document.getElementById('field').addEventListener('click', controlPlayer);
+        document.getElementById('field').addEventListener('mousemove', moveControlledPlayer);
+    </script>
+</body>
+</html>

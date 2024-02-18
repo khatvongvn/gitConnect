@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Average Calculator</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+    input[type="number"] {
+        width: 100px;
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #result {
+        font-weight: bold;
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <h1>Average Calculator</h1>
+        <form id="averageForm">
+            <label for="number">Enter Numbers:</label><br>
+            <input type="number" id="number" placeholder="Enter a number" required><br>
+            <button type="button" onclick="addNumber()">Add Number</button>
+        </form>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        var numbers = [];
+
+        function addNumber() {
+            var number = parseFloat(document.getElementById('number').value);
+
+            if (isNaN(number)) {
+                alert('Please enter a valid number.');
+                return;
+            }
+
+            numbers.push(number);
+            document.getElementById('number').value = '';
+            calculateAverage();
+        }
+
+        function calculateAverage() {
+            var sum = numbers.reduce(function(total, num) {
+                return total + num;
+            }, 0);
+            var average = sum / numbers.length;
+            document.getElementById('result').textContent = "Average: " + average.toFixed(2);
+        }
+    </script>
+</body>
+</html>

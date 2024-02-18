@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D Soccer Game</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+    }
+
+    #field {
+        width: 600px;
+        height: 400px;
+        background-color: #00aa00;
+        position: relative;
+        margin: 50px auto;
+    }
+
+    .team {
+        width: 50px;
+        height: 20px;
+        background-color: #fff;
+        position: absolute;
+    }
+
+    #teamA {
+        top: 50%;
+        left: 20px;
+    }
+
+    #teamB {
+        top: 50%;
+        right: 20px;
+    }
+
+    .player {
+        width: 10px;
+        height: 10px;
+        background-color: #000;
+        position: absolute;
+        border-radius: 50%;
+    }
+</style>
+</head>
+<body>
+    <div id="field">
+        <div id="teamA" class="team"></div>
+        <div id="teamB" class="team"></div>
+    </div>
+
+    <script>
+        function createPlayers(teamId) {
+            var team = document.getElementById(teamId);
+            for (var i = 0; i < 11; i++) {
+                var player = document.createElement('div');
+                player.className = 'player';
+                player.style.top = Math.floor(Math.random() * 380) + 'px';
+                player.style.left = Math.floor(Math.random() * 580) + 'px';
+                team.appendChild(player);
+            }
+        }
+
+        function movePlayers() {
+            var players = document.getElementsByClassName('player');
+            for (var i = 0; i < players.length; i++) {
+                var player = players[i];
+                var top = parseInt(player.style.top);
+                var left = parseInt(player.style.left);
+                var newTop = top + Math.floor(Math.random() * 11) - 5;
+                var newLeft = left + Math.floor(Math.random() * 11) - 5;
+                if (newTop < 0) newTop = 0;
+                if (newTop > 380) newTop = 380;
+                if (newLeft < 0) newLeft = 0;
+                if (newLeft > 580) newLeft = 580;
+                player.style.top = newTop + 'px';
+                player.style.left = newLeft + 'px';
+            }
+        }
+
+        createPlayers('teamA');
+        createPlayers('teamB');
+
+        setInterval(movePlayers, 1000);
+    </script>
+</body>
+</html>
